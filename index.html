@@ -484,6 +484,74 @@
         .edit-btn:hover {
             background: #00B4D8;
         }
+        @media (max-width: 700px) {
+          .navbar {
+            flex-direction: column;
+            height: auto;
+            padding: 12px 2vw;
+            border-radius: 0 0 16px 16px;
+            gap: 8px;
+          }
+          .navbar-menu {
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            align-items: flex-start;
+          }
+          .navbar-right {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            align-items: flex-end;
+          }
+          .main-box, .search-section {
+            max-width: 100vw;
+            padding: 12px 2vw;
+            border-radius: 0;
+          }
+          .info-row, .detail-flex, .courses-cards-row, .events-cards-row, .partners-cards-row {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+          .info-card, .event-card, .partner-card, .course-card {
+            width: 100% !important;
+            min-width: 0 !important;
+            box-sizing: border-box;
+            padding: 12px 8px;
+          }
+          .search-bar {
+            flex-direction: column;
+            gap: 8px;
+          }
+          .search-bar input, .search-bar select, .search-bar button {
+            width: 100%;
+            font-size: 1em;
+            box-sizing: border-box;
+          }
+          .detail-img, .event-card-img, .partner-card-img, .course-card-img {
+            width: 100% !important;
+            height: auto !important;
+            max-width: 100vw;
+          }
+          #dashboard-map {
+            max-width: 100vw !important;
+            height: 240px !important;
+            margin: 24px 0 0 0 !important;
+            border-radius: 0 0 16px 16px !important;
+          }
+          .enroll-form {
+            max-width: 100vw;
+            padding: 8px 2vw;
+          }
+          h2, h3 {
+            font-size: 1.1em;
+          }
+          .cta-btn, .more-btn, .back-btn {
+            width: 100%;
+            font-size: 1em;
+            padding: 10px 0;
+          }
+        }
     </style>
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
