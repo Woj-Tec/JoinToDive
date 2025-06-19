@@ -563,6 +563,7 @@
             <a href="#" onclick="showCoursesList()">Kursy</a>
             <a href="#" onclick="showEventsList()">Wydarzenia</a>
             <a href="#" onclick="showPartnersList()">Nurkowanie</a>
+            <a href="#" onclick="showSearchView()">Szukaj</a>
         </div>
         <div class="navbar-right">
             <a href="#" onclick="showRegisteredList()" class="uczestnik-btn">Uczestnik</a>
@@ -773,6 +774,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="search-view" style="display:none">
         <div class="search-section">
             <h3>Wyszukiwarka</h3>
             <div class="search-bar">
@@ -956,33 +959,6 @@
                 </div>
             </div>
         </div>
-        <div class="search-section">
-            <h3>Wyszukiwarka</h3>
-            <div class="search-bar">
-                <input type="text" placeholder="Woisz miejsce...">
-                <select id="typeSelect" onchange="toggleDepthFilter()">
-                    <option value="">Typ</option>
-                    <option value="event">Wydarzenia</option>
-                    <option value="course">Kursy</option>
-                    <option value="partner">Partnerzy</option>
-                </select>
-                <select>
-                    <option value="">Kiedy</option>
-                    <option value="week">Najbliższy tydzień</option>
-                    <option value="month">Najbliższy miesiąc</option>
-                    <option value="year">Najbliższy rok</option>
-                </select>
-                <select id="depthSelect" style="display: none;">
-                    <option value="">Maksymalna głębokość</option>
-                    <option value="0-18">do 18m</option>
-                    <option value="18-30">do 30m</option>
-                    <option value="30-40">do 40m</option>
-                    <option value="40+">powyżej 40m</option>
-                </select>
-                <button class="cta-btn">Szukaj</button>
-            </div>
-            <div id="dashboard-map" style="width: 100%; max-width: 900px; height: 640px; margin: 32px auto 0 auto; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.07);"></div>
-        </div>
     </div>
     <div id="events-list-view" style="display:none">
         <div class="main-box">
@@ -1044,33 +1020,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="search-section">
-            <h3>Wyszukiwarka</h3>
-            <div class="search-bar">
-                <input type="text" placeholder="Wpisz miejsce...">
-                <select id="typeSelect" onchange="toggleDepthFilter()">
-                    <option value="">Typ</option>
-                    <option value="event">Wydarzenia</option>
-                    <option value="course">Kursy</option>
-                    <option value="partner">Partnerzy</option>
-                </select>
-                <select>
-                    <option value="">Kiedy</option>
-                    <option value="week">Najbliższy tydzień</option>
-                    <option value="month">Najbliższy miesiąc</option>
-                    <option value="year">Najbliższy rok</option>
-                </select>
-                <select id="depthSelect" style="display: none;">
-                    <option value="">Maksymalna głębokość</option>
-                    <option value="0-18">do 18m</option>
-                    <option value="18-30">do 30m</option>
-                    <option value="30-40">do 40m</option>
-                    <option value="40+">powyżej 40m</option>
-                </select>
-                <button class="cta-btn">Szukaj</button>
-            </div>
-            <div id="dashboard-map" style="width: 100%; max-width: 900px; height: 640px; margin: 32px auto 0 auto; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.07);"></div>
         </div>
     </div>
     <div id="partners-list-view" style="display:none">
@@ -1138,33 +1087,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="search-section">
-            <h3>Wyszukiwarka</h3>
-            <div class="search-bar">
-                <input type="text" placeholder="Wpisz miejsce...">
-                <select id="typeSelect" onchange="toggleDepthFilter()">
-                    <option value="">Typ</option>
-                    <option value="event">Wydarzenia</option>
-                    <option value="course">Kursy</option>
-                    <option value="partner">Partnerzy</option>
-                </select>
-                <select>
-                    <option value="">Kiedy</option>
-                    <option value="week">Najbliższy tydzień</option>
-                    <option value="month">Najbliższy miesiąc</option>
-                    <option value="year">Najbliższy rok</option>
-                </select>
-                <select id="depthSelect" style="display: none;">
-                    <option value="">Maksymalna głębokość</option>
-                    <option value="0-18">do 18m</option>
-                    <option value="18-30">do 30m</option>
-                    <option value="30-40">do 40m</option>
-                    <option value="40+">powyżej 40m</option>
-                </select>
-                <button class="cta-btn">Szukaj</button>
-            </div>
-            <div id="dashboard-map" style="width: 100%; max-width: 900px; height: 640px; margin: 32px auto 0 auto; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.07);"></div>
         </div>
     </div>
     <div id="profile-view" style="display:none">
@@ -2266,7 +2188,8 @@
                 'registered-list-view',
                 'create-course-view',
                 'create-event-view',
-                'create-dive-view'
+                'create-dive-view',
+                'search-view' // <-- dodaję search-view do listy ukrywanych widoków
             ];
             views.forEach(viewId => {
                 const element = document.getElementById(viewId);
@@ -2485,6 +2408,33 @@
             });
           }
         });
+
+        let searchMap = null;
+        function showSearchView() {
+            hideAllViews();
+            document.getElementById('search-view').style.display = 'block';
+            setTimeout(() => {
+                if (!searchMap) {
+                    searchMap = L.map('dashboard-map').setView([50.7, 18.5], 7);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap'
+                    }).addTo(searchMap);
+                    const locations = [
+                        { name: "Kamionka Piast (Opole)", lat: 50.6722, lng: 17.9256, details: "Opole Piast" },
+                        { name: "Zimnik (Kamieniołom)", lat: 51.007359, lng: 16.256405, details: "Kamieniołom Zimnik" },
+                        { name: "Koparki (Jaworzno)", lat: 50.228759, lng: 19.311132, details: "Jaworzno Koparki" },
+                        { name: "Sproitz (Wetro, Niemcy)", lat: 51.291667, lng: 14.761667, details: "Kamieniołom Sproitz (Wetro)" }
+                    ];
+                    locations.forEach(loc => {
+                        L.marker([loc.lat, loc.lng])
+                            .addTo(searchMap)
+                            .bindPopup(`<b>${loc.name}</b><br>${loc.details}`);
+                    });
+                } else {
+                    searchMap.invalidateSize();
+                }
+            }, 200);
+        }
     </script>
     <!-- Leaflet.js JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
