@@ -36,7 +36,7 @@
         .navbar-menu {
             display: flex;
             gap: 32px;
-            flex: 1;
+            flex: 0.7;  /* Zmniejszamy flex z 1 na 0.7 aby menu było bardziej po lewej */
         }
         .navbar-menu a {
             color: #fff;
@@ -375,18 +375,26 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            margin-left: auto;  /* Dodajemy auto margin z lewej aby przesunąć przyciski w prawo */
+            padding-left: 32px;  /* Dodatkowy padding dla większego odstępu */
         }
 
         .profile-btn {
-            color: #0077B6;
+            background: linear-gradient(90deg, #0077B6 0%, #023E8A 100%);
+            color: #fff !important;
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 20px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-left: 8px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,119,182,0.08);
+            border: none;
+            cursor: pointer;
         }
-
         .profile-btn:hover {
-            background-color: #f0f8ff;
+            background: linear-gradient(90deg, #023E8A 0%, #0077B6 100%);
+            box-shadow: 0 4px 16px rgba(0,119,182,0.15);
         }
 
         .saved-btn {
@@ -459,7 +467,6 @@
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
-            margin-right: 8px;
             transition: background 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 8px rgba(243,114,44,0.08);
             border: none;
